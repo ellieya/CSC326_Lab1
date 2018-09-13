@@ -18,7 +18,7 @@ using namespace std;
 template <class FILLERWORD> class sequence {
 	int capacity; //hold array cap.
 	int num_used;
-	int *array_p;
+	FILLERWORD *array_p;
 
 public:
 	//Constructor
@@ -44,7 +44,7 @@ public:
 template <class FILLERWORD>
 sequence<FILLERWORD>::sequence()
 	:num_used(0), capacity(10) {
-	array_p = new int[capacity];
+	array_p = new FILLERWORD[capacity];
 }
 
 template <class FILLERWORD>
@@ -65,7 +65,7 @@ bool sequence<FILLERWORD>::full() {
 
 template <class FILLERWORD>
 bool sequence<FILLERWORD>::empty() {
-	return (num_used < capacity)
+	return (num_used < capacity);
 }
 
 template <class FILLERWORD>
@@ -91,13 +91,14 @@ void sequence<FILLERWORD>::set(int userInput_position, FILLERWORD userInput_entr
 template <class FILLERWORD>
 void sequence<FILLERWORD>::add_element(FILLERWORD userInput) {
 	array_p[num_used] = userInput;
+	num_used++;
 }
 template <class FILLERWORD>
 int sequence<FILLERWORD>::get_position(FILLERWORD userInput) {
 	int i;
 	bool foundMatch = false;
 	for (i = 0; i < num_used; i++) {
-		if array_p[i] == userInput
+		if (array_p[i] == userInput)
 			foundMatch = true;
 	}
 	if (i = num_used && (!foundMatch))

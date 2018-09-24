@@ -10,11 +10,29 @@ TO-DO:
 -Create function in main: loop using get() to print
 -need to put get_position in there
 -data validation should be changed into a main function, too much repeated use
+-test to see no errors and shit
+-output
+-description
+-some more commenting, I feel this is very lacking
+-Need to test that the 1 argument constructor is working
 
+
+Check: Is OoB? Is Full?
+-1) Add - OoB N/A , isFull done
+-2) Get - OoB needs message, isFull N/A
+-3) Set - OoB needs message, isFull N/A
+	Add option to cancel
+-4 - All N/A
+-5 - N/A
+-6 - N/A
+
+Checklist: https://dochub.com/ellienyaya/jB9j9W/pfalab1a-b-1
 
 */
 
 #include <iostream>
+#include <string>
+
 
 using namespace std;
 

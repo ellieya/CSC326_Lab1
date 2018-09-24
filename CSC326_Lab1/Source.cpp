@@ -1,17 +1,38 @@
-
-/*
-Remaining to-do:
--test to see no errors and shit
--output
--description
--some more commenting, I feel this is very lacking
-*/
-
-
-
 #include "Header.h"
-#include <stdlib.h>
-#include <string>
+
+template <typename s>
+s input_prompt()
+{
+	s userInput;
+
+	cout << "ENTER NEW ENTRY: ";
+	cin >> userInput;
+
+	return userInput;
+
+}
+
+/* Figure out in this form later
+
+//Function prints range, receives user input, validates user input, then returns int
+template <typename S>
+int input_on_index_range(sequence<S> seq) {
+
+	int userInput;
+
+	cout << "THERE ARE CURRENTLY " << seq.get_num_used() << " OCCUPIED SLOTS IN THE SEQUENCE.\n"
+		<< "Please select a number from 0 to " << (seq.get_num_used() - 1) << " for the index. \n" << endl;
+
+	//Data validation for input
+	do {
+		cout << "ENTER INDEX: ";
+		cin >> userInput;
+	} while (!(userInput >= 0 && userInput <= (seq.get_num_used() - 1)));
+
+	return userInput;
+}
+
+*/
 
 int main() {
 
@@ -37,24 +58,33 @@ int main() {
 		switch (userInput_menu) {
 		case 1:
 			system("CLS");
+
 			cout << "ADDING ELEMENT" << endl;
+
 			if (!stringSeq.full()) {
-				cout << "ENTER NEW ENTRY: ";
-				cin >> userInput_string;
+				userInput_string = input_prompt<string>();
 				stringSeq.add_element(userInput_string);
+
 				system("CLS");
 				cout << "SUCCESS!\n" << endl << flush;
+
 			}
 			else {
+
 				//When string is full, deny any further entries
 				cout << "SEQUENCE IS FULL AND CANNOT HOLD ANYMORE ELEMENTS!" << endl;
 				system("pause");
 				system("CLS");
+
 			}
 			break;
+
 		case 2:
+
 			system("CLS");
+
 			cout << "GETTING ELEMENT\n" << endl;
+
 			if (stringSeq.empty()) {
 				cout << "SEQUENCE IS EMPTY!" << endl;
 				system("pause");

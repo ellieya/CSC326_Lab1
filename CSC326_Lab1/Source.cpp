@@ -1,7 +1,7 @@
 #include "Header.h"
 
 template <typename s>
-s input_prompt()
+s new_entry_prompt()
 {
 	s userInput;
 
@@ -61,22 +61,9 @@ int main() {
 
 			cout << "ADDING ELEMENT" << endl;
 
-			if (!stringSeq.full()) {
-				userInput_string = input_prompt<string>();
+				userInput_string = new_entry_prompt<string>();
 				stringSeq.add_element(userInput_string);
-
 				system("CLS");
-				cout << "SUCCESS!\n" << endl << flush;
-
-			}
-			else {
-
-				//When string is full, deny any further entries
-				cout << "SEQUENCE IS FULL AND CANNOT HOLD ANYMORE ELEMENTS!" << endl;
-				system("pause");
-				system("CLS");
-
-			}
 			break;
 
 		case 2:

@@ -1,37 +1,7 @@
 /*
-Remember to combine into a single file when you're done
-*/
-
-/*
 
 TO-DO:
--Part A and Part B diff:
-	add function and double_array. Check prototype in class delcaration as well as code.
--data validation should be changed into a main function, too much repeated use
--some more commenting, I feel this is very lacking
--Need to test that the 1 argument constructor is working
--output
--description
 -extra credit: insert_element_at_given_position() and delete_element_at_given_position();
-
-
-Check: Is OoB? Is Full?
--1) Add - OoB N/A , isFull done
--2) Get - OoB needs message, isFull N/A
--3) Set - OoB needs message, isFull N/A
-	Add option to cancel
--4 - All N/A
--5 - N/A
--6 - N/A
-
-Check OoB (index) should be in class
-isFull should be in class
-Data validation should also be in class because it relies on class value... :/
-
-...ask the professor. Get and set usually aren't that complicated.
-
-Checklist: https://dochub.com/ellienyaya/jB9j9W/pfalab1a-b-1
-
 */
 
 #include <iostream>
@@ -40,10 +10,10 @@ Checklist: https://dochub.com/ellienyaya/jB9j9W/pfalab1a-b-1
 
 using namespace std;
 
-template <class FILLERWORD> class sequence {
+template <class item_type> class sequence {
 	int capacity; //hold array cap.
 	int num_used;
-	FILLERWORD *array_p;
+	item_type *array_p;
 
 public:
 	//Constructor
@@ -55,89 +25,109 @@ public:
 
 	bool full();
 	bool empty();
+	bool is_OoB(int);
 	int get_capacity();
 	int get_num_used();
-	FILLERWORD get(int userInput);
+	item_type get(int userInput);
 		//POST: Return value at given position
-	void set(int userInput_position, FILLERWORD userInput_entry);
+	void set(int userInput_position, item_type userInput_entry);
 		//POST: Set value at given position
-	void add_element(FILLERWORD userInput);
+	void add_element(item_type userInput);
 		//POST: Add given element to next available position
 	void double_array();
+		/*FOR PART B*/
 		//PRE: add_element() is used when full() is true
 		//POST:  array_p's capacity is doubled and capacity * 2.
-	int get_position(FILLERWORD userInput);
+	int get_position(item_type userInput);
 
 
 };
 
-template <class FILLERWORD>
-sequence<FILLERWORD>::sequence()
+template <class item_type>
+sequence<item_type>::sequence()
 	:num_used(0), capacity(10) {
-	array_p = new FILLERWORD[capacity];
+	array_p = new item_type[capacity];
+
+	//FOR TESTING PURPOSES ONLY DELETE AFTERWARDS!!!
+	
+	/*
+	array_p[0] = 'A';
+	array_p[1] = 'B';
+	array_p[2] = 'C';
+	array_p[3] = 'D';
+	array_p[4] = 'E';
+	array_p[5] = 'F';
+	array_p[6] = 'G';
+	array_p[7] = 'H';
+	array_p[8] = 'I';
+	array_p[9] = 'J';
+	num_used = 10;
+	*/
 }
 
-template <class FILLERWORD>
-sequence<FILLERWORD>::sequence(int size) 
+template <class item_type>
+sequence<item_type>::sequence(int size) 
 	:num_used(0), capacity(size) {
-	array_p = new int[capacity];
+	array_p = new item_type[capacity];
 }
 
-template <class FILLERWORD>
-sequence<FILLERWORD>::~sequence() {
+template <class item_type>
+sequence<item_type>::~sequence() {
 	delete[] array_p;
 }
 
-template <class FILLERWORD>
-bool sequence<FILLERWORD>::full() {
+template <class item_type>
+bool sequence<item_type>::full() {
 	return (num_used >= capacity);
 }
 
-template <class FILLERWORD>
-bool sequence<FILLERWORD>::empty() {
+template <class item_type>
+bool sequence<item_type>::empty() {
 	return (num_used == 0);
 }
 
-template <class FILLERWORD>
-int sequence<FILLERWORD>::get_capacity() {
+template <class item_type>
+int sequence<item_type>::get_capacity() {
 	return capacity;
 }
 
-template <class FILLERWORD>
-int sequence<FILLERWORD>::get_num_used() {
+template <class item_type>
+int sequence<item_type>::get_num_used() {
 	return num_used;
 }
 
-template <class FILLERWORD>
-FILLERWORD sequence<FILLERWORD>::get(int userInput) {
-	return array_p[userInput];
+template <class item_type>
+item_type sequence<item_type>::get(int userInput) {
+
+	if (empty()) {
+		throw 0;
+	} else if (is_OoB(userInput)) {
+		throw 1;
+	} else {
+		return array_p[userInput];
+	}
 }
 
-template <class FILLERWORD>
-void sequence<FILLERWORD>::set(int userInput_position, FILLERWORD userInput_entry) {
-	array_p[userInput_position] = userInput_entry;
-}
-
-template <class FILLERWORD>
-void sequence<FILLERWORD>::add_element(FILLERWORD userInput) {
-	if (!full()) {
-		array_p[num_used] = userInput;
-		num_used++;
-		cout << "SUCCESS!\n" << endl;
+template <class item_type>
+void sequence<item_type>::set(int userInput_position, item_type userInput_entry) {
+	
+	if (empty()) {
+		throw 0;
+	}
+	else if (is_OoB(userInput_position)) {
+		throw 1;
 	}
 	else {
-		cout << "ARRAY IS FULL. CANNOT ADD ANYMORE ELEMENTS." << endl;
+		array_p[userInput_position] = userInput_entry;
 	}
-	system("pause");
 }
 
-/*
-FOR PART B
+template <class item_type>
+void sequence<item_type>::add_element(item_type userInput) {
 
-template <class FILLERWORD>
-void sequence<FILLERWORD>::add_element(FILLERWORD userInput) {
+	/* FOR PART B */
 	if (full()) {
-		cout << "ARRAY IS FULL. Adding more room...";
+		cout << "ARRAY IS FULL. Adding more room...\n";
 		double_array();
 		cout << "CAPACITY HAS BEEN EXTENDED TO " << capacity << "." << endl;
 	}
@@ -149,31 +139,28 @@ void sequence<FILLERWORD>::add_element(FILLERWORD userInput) {
 
 }
 
-*/
 
-
-
-template <class FILLERWORD>
-void sequence<FILLERWORD>::double_array() {
+template <class item_type>
+void sequence<item_type>::double_array() {
 	
 	//Temporary pointer for new array
-	FILLERWORD *holder = new FILLERWORD[capacity * 2];
+	item_type *holder = new item_type[capacity * 2];
 	
 	//Copy array_p into holder
 	for (int i = 0; i < capacity; i++) {
 		holder[i] = array_p[i];
 	}
 
-	array_p delete[];
+	delete[] array_p;
 	array_p = holder;
 	capacity *= 2;
 
-	//Holder should be automatically deallocated when this function is completed.
+	//holder should be automatically deallocated when this function is completed.
 }
 
 
-template <class FILLERWORD>
-int sequence<FILLERWORD>::get_position(FILLERWORD userInput) {
+template <class item_type>
+int sequence<item_type>::get_position(item_type userInput) {
 	int i = 0;
 	bool continueLoop = true;
 	bool foundMatch = false;
@@ -194,4 +181,10 @@ int sequence<FILLERWORD>::get_position(FILLERWORD userInput) {
 		return -1;
 	else
 		return i; //Fix number as for loop adds extra 1 to fall out of the loop
+}
+
+
+template <class item_type>
+bool sequence<item_type>::is_OoB(int userInput) {
+	return !(userInput >= 0 && userInput <= num_used - 1);
 }
